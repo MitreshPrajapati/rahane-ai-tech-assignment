@@ -26,8 +26,8 @@ app.use('/users', userRouter);
 // app.use('/post', postRouter);
 // app.use('/comment', commentRouter);
 
-// app.get('/test', () => {
-//     return 'Test successfull.'
+// app.get('/test', async(req, res) => {
+//    res.send("test")
 // });
 
 

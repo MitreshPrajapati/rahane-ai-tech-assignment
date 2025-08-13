@@ -8,10 +8,11 @@ dotenv.config();
 
 const registerUser = async (req, res) => {
     const { email, password } = req.body;
-    if (!email || !password) {
-        return res.status(STATUS_CODES.BAD_REQUEST).json({ message: "Missing fields." })
-    }
+    // console.log(email, password)
     try {
+        if (!email || !password) {
+            return res.status(STATUS_CODES.BAD_REQUEST).json({ message: "Missing fields." })
+        }
 
         const isExist = await User.findOne({ email });
 
@@ -20,14 +21,14 @@ const registerUser = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User.create({
+        const newUser = new User({
             email,
             password: hashedPassword,
         });
 
         const user = await newUser.save();
-        const { password, ...rest } = user._doc;
-        res.status(STATUS_CODES.CREATED).json({ message: "User register successfully.", data: rest });
+        // const { password, ...rest } = user._doc;
+        res.status(STATUS_CODES.CREATED).json({ message: "User register successfully.", data: { ...user._doc, password: null } });
     } catch (error) {
         res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: "Server error" })
     }
@@ -36,11 +37,11 @@ const registerUser = async (req, res) => {
 
 const userLogin = async (req, res) => {
     const { email, password } = req.body;
-
-    if (!email, password) {
-        return res.status(STATUS_CODES.BAD_REQUEST).json({ message: "All fields required." })
-    }
+    console.log(email, password);
     try {
+        if (!email || !password) {
+            return res.status(STATUS_CODES.BAD_REQUEST).json({ message: "All fields required." })
+        }
         const user = await User.findOne({ email });
 
         if (!user) {
@@ -54,7 +55,7 @@ const userLogin = async (req, res) => {
             id: user._id,
             email: user.email,
             roles: user.roles
-        })
+        }, process.env.JWT_SECRET)
 
         res.status(STATUS_CODES.OK).json({ message: "Login success.", token });
 

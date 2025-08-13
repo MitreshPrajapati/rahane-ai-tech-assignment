@@ -49,7 +49,7 @@ const deleteComment = async (req, res) => {
 
         }
 
-        if (!req.user.roles.includes('admin') && comment.author.createFromHexString() !== userId) {
+        if (!req.user.roles.includes('admin') && comment.author.toString() !== userId) {
             return res.status(STATUS_CODES.FORBIDDEN).json({ message: "Not allowed" })
         }
 

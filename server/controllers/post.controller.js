@@ -22,7 +22,7 @@ const createPost = async (req, res) => {
     const { title, description } = req.body;
     const userId = req.user._id;
     try {
-        const post = await Post.create({
+        const post = new Post({
             title,
             description,
             author: userId
