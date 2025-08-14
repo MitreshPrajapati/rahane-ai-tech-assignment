@@ -5,12 +5,16 @@ const ENDPOINTS = {
   LOGIN: `/auth/login`,
   REGISTER: `/auth/register`,
   LOGOUT: `/auth/logout`,
+
   GET_PROFILE: `/auth/profile`,
   USERS: `/users`,
-  LOGS: `/logs`,
   POSTS: `/post`,
   POST_CREATE: `/post/create`,
-  CONTENT: `/posts`
+  // CONTENT: `/posts`,
+  COMMENT: `/comment`,
+
+
+  LOGS: `/logs`,
 };
 
 export default ENDPOINTS;

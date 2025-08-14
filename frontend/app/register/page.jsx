@@ -23,7 +23,7 @@ export default function SignupPage() {
     });
     // const response = await axios.post(ENDPOINTS.REGISTER, { email, password });
     // const data = await response.json();
-    console.log(res);
+    // console.log(res);
     router.push('/login')
   };
 

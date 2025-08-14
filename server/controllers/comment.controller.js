@@ -5,7 +5,7 @@ const { STATUS_CODES } = require("../utils/httpStatus")
 
 const createComment = async (req, res) => {
     const { postId } = req.params;
-    const userId = req.user._id;
+    const userId = req.user.id;
     const { text, } = req.body;
 
     try {
@@ -32,7 +32,7 @@ const getPostComments = async (req, res) => {
     const { postId } = req.params;
 
     try {
-        const comments = await Comment.find({ post: postId }).populate("authore", "email")
+        const comments = await Comment.find({ post: postId }).populate("author", "email")
         res.status(STATUS_CODES.OK).json(comments);
     } catch (error) {
         res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: "Server error." })
@@ -41,17 +41,16 @@ const getPostComments = async (req, res) => {
 
 const deleteComment = async (req, res) => {
     const { id } = req.params;
-    const userId = req.user._id;
+    const userId = req.user.id;
     try {
         const comment = await Comment.findById(id);
         if (!comment) {
             return res.status(STATUS_CODES.NOT_FOUND).json({ message: "Not found." });
-
         }
 
-        if (!req.user.roles.includes('admin') && comment.author.toString() !== userId) {
-            return res.status(STATUS_CODES.FORBIDDEN).json({ message: "Not allowed" })
-        }
+        // if (!req.user.roles.includes('admin') || !req.user.roles.includes('editor') ) {
+        //     return res.status(STATUS_CODES.FORBIDDEN).json({ message: "Not allowed" })
+        // }
 
         await comment.deleteOne();
         res.status(STATUS_CODES.OK).json({ message: "comment deleted." })

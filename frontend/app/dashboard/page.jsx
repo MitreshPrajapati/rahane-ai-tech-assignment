@@ -1,12 +1,7 @@
-import { AuthProvider } from "@/context/AuthContext";
-
 export default function Dashboard() {
   return (
-    <AuthProvider>
-        <div>Home</div>
-      {/* <DashboardLayout>
-        <div>Home</div>
-      </DashboardLayout> */}
-    </AuthProvider>
+    <div>
+      <h1 className="text-2xl">Welcome to Dashboard </h1>
+    </div>
   );
 }

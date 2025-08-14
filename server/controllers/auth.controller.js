@@ -37,7 +37,7 @@ const registerUser = async (req, res) => {
 
 const userLogin = async (req, res) => {
     const { email, password } = req.body;
-    console.log(email, password);
+    // console.log(email, password);
     try {
         if (!email || !password) {
             return res.status(STATUS_CODES.BAD_REQUEST).json({ message: "All fields required." })

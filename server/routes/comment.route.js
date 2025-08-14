@@ -6,7 +6,7 @@ const { createComment, deleteComment, getPostComments } = require("../controller
 const commentRouter = Router();
 
 commentRouter.post('/:postId', authentication, authorization(['admin', 'editor', 'viewer']), createComment);
-// commentRouter.get('/:postId', authentication, getPostComments)
+commentRouter.get('/:postId', authentication, getPostComments)
 commentRouter.delete('/:id', authentication, authorization(['admin', 'editor']), deleteComment);
 
 module.exports = { commentRouter };

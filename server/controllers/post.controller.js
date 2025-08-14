@@ -48,9 +48,9 @@ const updatePost = async (req, res) => {
 
         // role not admin 
         // and author and req.user._id not match then not allowed
-        if (!req.user.roles.includes('admin') && post.author.toString() !== req.user._id.toString()) {
-            return res.status(STATUS_CODES.FORBIDDEN).json({ message: "Not allowed." });
-        }
+        // if (!req.user.roles.includes('admin') && post.author.toString() !== req.user.id.toString()) {
+        //     return res.status(STATUS_CODES.FORBIDDEN).json({ message: "Not allowed." });
+        // }
         post.title = title
         post.description = description
         // await Post.findByIdAndUpdate(id, { title, description }, { new: true })
@@ -69,7 +69,7 @@ const deletePost = async (req, res) => {
             return res.status(STATUS_CODES.NOT_FOUND).json({ message: "Post not found." });
         }
 
-        if (!req.user.roles.includes('admin') && post.author.toString() !== req.user._id.toString()) {
+        if (!req.user.roles.includes('admin') && post.author.toString() !== req.user.id.toString()) {
             return res.status(STATUS_CODES.FORBIDDEN).json({ message: 'Not allowed.' })
         }
 

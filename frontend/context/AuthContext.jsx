@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = (token) => {
     try {
-      console.log("data login:", token);
+      // console.log("data login:", token);
       localStorage.setItem("token", JSON.stringify(token));
       const decoded = jwtDecode(token);
       localStorage.setItem("user", JSON.stringify(decoded));
@@ -37,8 +37,9 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setUser(null);
-    router.push("/login");
+    router.replace("/login");
   };
 
   return (
