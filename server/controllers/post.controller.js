@@ -20,14 +20,15 @@ const getAllPosts = async (req, res) => {
 
 const createPost = async (req, res) => {
     const { title, description } = req.body;
-    const userId = req.user._id;
+    const userId = req.user.id;
+    console.log(title, description, userId)
     try {
         const post = new Post({
             title,
             description,
             author: userId
         });
-
+        await post.save();
         res.status(STATUS_CODES.CREATED).json({ message: 'Posted', post })
     } catch (error) {
         res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: 'Server error' })
@@ -36,6 +37,8 @@ const createPost = async (req, res) => {
 
 const updatePost = async (req, res) => {
     const { id } = req.params;
+    // console.log(id, req.user);
+    const { title, description } = req.body;
     try {
         const post = await Post.findById(id);
         if (!post) {
@@ -48,9 +51,9 @@ const updatePost = async (req, res) => {
         if (!req.user.roles.includes('admin') && post.author.toString() !== req.user._id.toString()) {
             return res.status(STATUS_CODES.FORBIDDEN).json({ message: "Not allowed." });
         }
-
-        title && (post.title = title);
-        content && (post.content = content);
+        post.title = title
+        post.description = description
+        // await Post.findByIdAndUpdate(id, { title, description }, { new: true })
         await post.save();
         res.status(STATUS_CODES.OK).json({ message: 'Post updated.', post });
     } catch (error) {
@@ -66,11 +69,11 @@ const deletePost = async (req, res) => {
             return res.status(STATUS_CODES.NOT_FOUND).json({ message: "Post not found." });
         }
 
-        if (req.user.roles.includes('admin') && post.author.toString() !== req.user._id.toString()) {
+        if (!req.user.roles.includes('admin') && post.author.toString() !== req.user._id.toString()) {
             return res.status(STATUS_CODES.FORBIDDEN).json({ message: 'Not allowed.' })
         }
 
-        await post.deleteOne();
+        await Post.findByIdAndDelete(id);
         res.send({ message: "Post Deleted" })
     } catch (error) {
         res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: 'Server error' })

@@ -23,8 +23,8 @@ app.use(cors());
 
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
-// app.use('/post', postRouter);
-// app.use('/comment', commentRouter);
+app.use('/post', postRouter);
+app.use('/comment', commentRouter);
 
 // app.get('/test', async(req, res) => {
 //    res.send("test")

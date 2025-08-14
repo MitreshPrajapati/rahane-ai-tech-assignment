@@ -6,7 +6,7 @@ const { getAllPosts, createPost, updatePost, deletePost } = require("../controll
 const postRouter = Router();
 
 // getAll posts
-postRouter.get('/', authentication, authorization(['admin']), getAllPosts)
+postRouter.get('/', authentication, authorization(['admin', 'viewer', 'editor']), getAllPosts)
 
 // get post
 //  postRouter.get()

@@ -13,7 +13,6 @@ const authentication = (req, res, next) => {
             return res.status(STATUS_CODES.UNAUTHORIZED).json({ message: "Authorization token missing or invalid format." })
         }
 
-
         const token = authHeader.split(' ')[1];
 
         if (!req.body) {
